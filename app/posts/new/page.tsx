@@ -1,5 +1,5 @@
 import { createPost } from './actions'
-
+import CharCounter from './CharCounter'
 export default function NewPostPage() {
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10">
@@ -29,20 +29,14 @@ export default function NewPostPage() {
           </div>
 
           <div>
-            <label
-              htmlFor="content"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Текст поста
-            </label>
-            <textarea
-              id="content"
-              name="content"
-              rows={6}
-              required
-              className="mt-1.5 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
-            />
-          </div>
+  <label
+    htmlFor="content"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Текст поста
+  </label>
+  <CharCounter />
+</div>
 
           <button
             type="submit"
