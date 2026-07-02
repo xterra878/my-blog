@@ -77,16 +77,24 @@ if (user) {
       {post.title}
     </h2>
     {user && user.id === post.user_id && (
-      <form action={deletePost}>
-        <input type="hidden" name="postId" value={post.id} />
-        <button
-          type="submit"
-          className="shrink-0 text-xs font-medium text-gray-400 transition hover:text-red-600"
-        >
-          Удалить
-        </button>
-      </form>
-    )}
+  <div className="flex items-center gap-3">
+  <Link
+    href={`/posts/edit/${post.id}`}
+    className="shrink-0 text-xs font-medium text-gray-400 transition hover:text-gray-900"
+  >
+    Редактировать
+  </Link>
+  <form action={deletePost} className="flex items-center">
+    <input type="hidden" name="postId" value={post.id} />
+    <button
+      type="submit"
+      className="shrink-0 text-xs font-medium text-gray-400 transition hover:text-red-600"
+    >
+      Удалить
+    </button>
+  </form>
+</div>
+)}
   </div>
   <p className="mt-2 leading-relaxed text-gray-600">
     {post.content}
