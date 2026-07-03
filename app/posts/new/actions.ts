@@ -22,6 +22,6 @@ export async function createPost(formData: FormData) {
     user_id: user.id,
   })
 
-  revalidatePath('/')
-  redirect('/')
+  revalidatePath('/', 'layout')
+redirect('/')
 }
