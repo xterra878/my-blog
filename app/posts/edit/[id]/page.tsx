@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { updatePost } from './actions'
+import CharCounter from '@/app/posts/new/CharCounter'
 
 export default async function EditPostPage({
   params,
@@ -58,21 +59,14 @@ export default async function EditPostPage({
           </div>
 
           <div>
-            <label
-              htmlFor="content"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Текст поста
-            </label>
-            <textarea
-              id="content"
-              name="content"
-              rows={6}
-              required
-              defaultValue={post.content}
-              className="mt-1.5 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
-            />
-          </div>
+  <label
+    htmlFor="content"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Текст поста
+  </label>
+  <CharCounter defaultValue={post.content} />
+</div>
 
           <button
             type="submit"
