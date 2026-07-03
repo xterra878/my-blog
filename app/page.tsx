@@ -2,6 +2,7 @@ import { deletePost } from './posts/delete/actions'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { logout } from './logout/actions'
+import SearchPosts from './SearchPosts'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -65,71 +66,17 @@ if (user) {
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-10">
-        <div className="space-y-6">
-          {posts && posts.length > 0 ? (
-            posts.map((post) => (
-              <article
-  key={post.id}
-  className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md"
->
-  <div className="flex items-start justify-between gap-4">
-    <h2 className="text-xl font-semibold text-gray-900">
-      {post.title}
-    </h2>
-    {user && user.id === post.user_id && (
-  <div className="flex items-center gap-3">
-  <Link
-    href={`/posts/edit/${post.id}`}
-    className="shrink-0 text-xs font-medium text-gray-400 transition hover:text-gray-900"
-  >
-    Редактировать
-  </Link>
-  <form action={deletePost} className="flex items-center">
-    <input type="hidden" name="postId" value={post.id} />
-    <button
-      type="submit"
-      className="shrink-0 text-xs font-medium text-gray-400 transition hover:text-red-600"
-    >
-      Удалить
-    </button>
-  </form>
-</div>
-)}
-  </div>
-  <p className="mt-2 leading-relaxed text-gray-600">
-    {post.content}
-  </p>
-  <p className="mt-4 text-xs text-gray-400">
-  {post.profiles?.username && (
-    <span className="font-medium text-gray-500">
-      {post.profiles.username}
-    </span>
+  {posts && posts.length > 0 ? (
+    <SearchPosts
+      posts={posts}
+      currentUserId={user?.id ?? null}
+    />
+  ) : (
+    <div className="rounded-2xl border border-dashed border-gray-300 py-16 text-center">
+      <p className="text-gray-400">Постов пока нет. Будь первым!</p>
+    </div>
   )}
-  {post.profiles?.username && ' · '}
-  {new Date(post.created_at).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })}
-  {post.updated_at && (
-    <span className="ml-2 text-gray-400">
-      · изменено {new Date(post.updated_at).toLocaleDateString('ru-RU', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      })}
-    </span>
-  )}
-</p>
-</article>
-            ))
-          ) : (
-            <div className="rounded-2xl border border-dashed border-gray-300 py-16 text-center">
-              <p className="text-gray-400">Постов пока нет. Будь первым!</p>
-            </div>
-          )}
-        </div>
-      </main>
+</main>
     </div>
   )
 }

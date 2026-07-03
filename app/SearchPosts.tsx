@@ -1,0 +1,107 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { deletePost } from './posts/delete/actions'
+
+type Post = {
+  id: number
+  title: string
+  content: string
+  created_at: string
+  updated_at: string | null
+  user_id: string
+  profiles: { username: string | null } | null
+}
+
+export default function SearchPosts({
+  posts,
+  currentUserId,
+}: {
+  posts: Post[]
+  currentUserId: string | null
+}) {
+  const [query, setQuery] = useState('')
+
+  const filtered = posts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(query.toLowerCase()) ||
+      post.content.toLowerCase().includes(query.toLowerCase())
+  )
+
+  return (
+    <div className="space-y-6">
+      <input
+        type="text"
+        placeholder="Поиск по постам..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
+      />
+
+      {filtered.length > 0 ? (
+        filtered.map((post) => (
+          <article
+            key={post.id}
+            className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-xl font-semibold text-gray-900">
+                {post.title}
+              </h2>
+              {currentUserId && currentUserId === post.user_id && (
+                <div className="flex items-center gap-3">
+                  <Link
+                    href={`/posts/edit/${post.id}`}
+                    className="shrink-0 text-xs font-medium text-gray-400 transition hover:text-gray-900"
+                  >
+                    Редактировать
+                  </Link>
+                  <form action={deletePost} className="flex items-center">
+                    <input type="hidden" name="postId" value={post.id} />
+                    <button
+                      type="submit"
+                      className="shrink-0 text-xs font-medium text-gray-400 transition hover:text-red-600"
+                    >
+                      Удалить
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+            <p className="mt-2 leading-relaxed text-gray-600">
+              {post.content}
+            </p>
+            <p className="mt-4 text-xs text-gray-400">
+              {post.profiles?.username && (
+                <span className="font-medium text-gray-500">
+                  {post.profiles.username}
+                </span>
+              )}
+              {post.profiles?.username && ' · '}
+              {new Date(post.created_at).toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+              {post.updated_at && (
+                <span className="ml-2 text-gray-400">
+                  · изменено{' '}
+                  {new Date(post.updated_at).toLocaleDateString('ru-RU', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </span>
+              )}
+            </p>
+          </article>
+        ))
+      ) : (
+        <div className="rounded-2xl border border-dashed border-gray-300 py-16 text-center">
+          <p className="text-gray-400">Ничего не найдено</p>
+        </div>
+      )}
+    </div>
+  )
+}
