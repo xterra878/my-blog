@@ -100,18 +100,27 @@ if (user) {
     {post.content}
   </p>
   <p className="mt-4 text-xs text-gray-400">
-    {post.profiles?.username && (
-      <span className="font-medium text-gray-500">
-        {post.profiles.username}
-      </span>
-    )}
-    {post.profiles?.username && ' · '}
-    {new Date(post.created_at).toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    })}
-  </p>
+  {post.profiles?.username && (
+    <span className="font-medium text-gray-500">
+      {post.profiles.username}
+    </span>
+  )}
+  {post.profiles?.username && ' · '}
+  {new Date(post.created_at).toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })}
+  {post.updated_at && (
+    <span className="ml-2 text-gray-400">
+      · изменено {new Date(post.updated_at).toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })}
+    </span>
+  )}
+</p>
 </article>
             ))
           ) : (

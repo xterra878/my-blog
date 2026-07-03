@@ -18,10 +18,10 @@ export async function updatePost(formData: FormData) {
   const content = formData.get('content') as string
 
   await supabase
-    .from('posts')
-    .update({ title, content })
-    .eq('id', postId)
-    .eq('user_id', user.id)
+  .from('posts')
+  .update({ title, content, updated_at: new Date().toISOString() })
+  .eq('id', postId)
+  .eq('user_id', user.id)
 
   revalidatePath('/')
   redirect('/')
