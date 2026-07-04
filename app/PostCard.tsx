@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { deletePost } from './posts/delete/actions'
+import { formatDate } from './formatDate'
 
 type Post = {
   id: number
@@ -48,28 +49,19 @@ export default function PostCard({
         {post.content}
       </p>
       <p className="mt-4 text-xs text-gray-400">
-        {post.profiles?.username && (
-          <span className="font-medium text-gray-500">
-            {post.profiles.username}
-          </span>
-        )}
-        {post.profiles?.username && ' · '}
-        {new Date(post.created_at).toLocaleDateString('ru-RU', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        })}
-        {post.updated_at && (
-          <span className="ml-2 text-gray-400">
-            · изменено{' '}
-            {new Date(post.updated_at).toLocaleDateString('ru-RU', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-            })}
-          </span>
-        )}
-      </p>
+  {post.profiles?.username && (
+    <span className="font-medium text-gray-500">
+      {post.profiles.username}
+    </span>
+  )}
+  {post.profiles?.username && ' · '}
+  {formatDate(post.created_at)}
+  {post.updated_at && (
+    <span className="ml-2 text-gray-400">
+      · изменено {formatDate(post.updated_at)}
+    </span>
+  )}
+</p>
     </article>
   )
 }
