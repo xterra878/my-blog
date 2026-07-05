@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { updatePost } from './actions'
 import CharCounter from '@/app/posts/new/CharCounter'
+import Link from 'next/link'
 
 export default async function EditPostPage({
   params,
@@ -31,9 +32,15 @@ export default async function EditPostPage({
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto max-w-2xl">
-        <h1 className="mb-8 text-2xl font-bold tracking-tight text-gray-900">
-          Редактировать пост
-        </h1>
+        <div className="mb-8 flex items-center justify-between">
+  <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+    ← Назад
+  </Link>
+  <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+  Редактировать пост
+</h1>
+  <div className="w-16" />
+</div>
 
         <form
           action={updatePost}
