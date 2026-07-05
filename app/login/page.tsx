@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import { login } from './actions'
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>
+}) {
+  const { error } = await searchParams
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm">
@@ -13,6 +19,12 @@ export default function LoginPage() {
           action={login}
           className="space-y-5 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-gray-100"
         >
+          {error && (
+            <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
+              {decodeURIComponent(error)}
+            </div>
+          )}
+
           <div>
             <label
               htmlFor="email"
