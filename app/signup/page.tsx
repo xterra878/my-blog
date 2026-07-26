@@ -73,6 +73,22 @@ export default async function SignupPage({
             />
           </div>
 
+          <div className="flex items-start gap-2">
+            <input
+              id="consent"
+              name="consent"
+              type="checkbox"
+              required
+              className="mt-0.5 h-4 w-4 rounded border-gray-300"
+            />
+            <label htmlFor="consent" className="text-xs leading-relaxed text-gray-500">
+              Я даю согласие на обработку персональных данных в соответствии с{' '}
+              <Link href="/privacy" target="_blank" className="font-medium text-gray-900 hover:underline">
+                Политикой обработки персональных данных
+              </Link>
+            </label>
+          </div>
+
           <button
             type="submit"
             className="w-full rounded-full bg-gray-900 py-2.5 text-sm font-medium text-white transition hover:bg-gray-700"

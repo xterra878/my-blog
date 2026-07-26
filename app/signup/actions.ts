@@ -10,6 +10,11 @@ export async function signup(formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const username = formData.get('username') as string
+  const consent = formData.get('consent') as string
+
+  if (!consent) {
+    redirect('/signup?error=' + encodeURIComponent('Необходимо согласие на обработку персональных данных'))
+  }
 
   if (!username || username.trim().length === 0) {
     redirect('/signup?error=' + encodeURIComponent('Введите никнейм'))
