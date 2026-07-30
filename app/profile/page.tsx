@@ -3,7 +3,13 @@ import { redirect } from 'next/navigation'
 import { updateUsername } from './actions'
 import Link from 'next/link'
 
-export default async function ProfilePage() {
+export default async function ProfilePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>
+}) {
+  const { error } = await searchParams
+
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -22,19 +28,25 @@ export default async function ProfilePage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex items-center justify-between">
-  <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-900">
-    ← Назад
-  </Link>
-  <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-    Мой профиль
-  </h1>
-  <div className="w-16" />
-</div>
+          <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+            ← Назад
+          </Link>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+            Мой профиль
+          </h1>
+          <div className="w-16" />
+        </div>
 
         <form
           action={updateUsername}
           className="space-y-5 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-gray-100"
         >
+          {error && (
+            <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
+              {decodeURIComponent(error)}
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email
