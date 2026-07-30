@@ -18,6 +18,8 @@ async function isFlaggedByModeration(text: string): Promise<boolean> {
     })
 
     const data = await response.json()
+    console.log('Ответ модерации:', JSON.stringify(data, null, 2))
+    console.log('Статус ответа:', response.status)
     return data.results?.[0]?.flagged === true
   } catch (err) {
     console.error('Ошибка модерации:', err)
