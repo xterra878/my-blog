@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { deletePost } from '@/app/posts/delete/actions'
 import { formatDate } from '@/app/formatDate'
+import { createComment } from './comments-actions'
+import CommentItem from './CommentItem'
 
 export default async function PostPage({
   params,
@@ -24,6 +26,12 @@ export default async function PostPage({
 
   const { data: { user } } = await supabase.auth.getUser()
   const isAuthor = user?.id === post.user_id
+
+  const { data: comments } = await supabase
+    .from('comments')
+    .select('*, profiles(username)')
+    .eq('post_id', post.id)
+    .order('created_at', { ascending: true })
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10">
@@ -81,6 +89,61 @@ export default async function PostPage({
             {post.content}
           </p>
         </article>
+
+        <div className="mt-8">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">
+            Комментарии {comments && comments.length > 0 && `(${comments.length})`}
+          </h2>
+
+          <div className="space-y-4">
+            {comments && comments.length > 0 ? (
+              comments.map((comment) => {
+                const isCommentAuthor = user?.id === comment.user_id
+                const hoursPassed =
+                  (Date.now() - new Date(comment.created_at).getTime()) / (1000 * 60 * 60)
+                const canEdit = isCommentAuthor && hoursPassed <= 48
+
+                return (
+                  <CommentItem
+                    key={comment.id}
+                    comment={comment}
+                    postId={post.id}
+                    isCommentAuthor={isCommentAuthor}
+                    canEdit={canEdit}
+                  />
+                )
+              })
+            ) : (
+              <p className="text-sm text-gray-400">Пока нет комментариев.</p>
+            )}
+          </div>
+
+          {user ? (
+            <form action={createComment} className="mt-6 space-y-3">
+              <input type="hidden" name="postId" value={post.id} />
+              <textarea
+                name="content"
+                required
+                rows={3}
+                placeholder="Написать комментарий..."
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
+              />
+              <button
+                type="submit"
+                className="rounded-full bg-gray-900 px-5 py-2 text-sm font-medium text-white transition hover:bg-gray-700"
+              >
+                Отправить
+              </button>
+            </form>
+          ) : (
+            <p className="mt-6 text-sm text-gray-500">
+              <Link href="/login" className="font-medium text-gray-900 hover:underline">
+                Войдите
+              </Link>
+              , чтобы оставить комментарий.
+            </p>
+          )}
+        </div>
 
       </div>
     </div>
