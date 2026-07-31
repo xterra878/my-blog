@@ -33,14 +33,14 @@ export default async function EditPostPage({
     <div className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 flex items-center justify-between">
-  <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-900">
-    ← Назад
-  </Link>
-  <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-  Редактировать пост
-</h1>
-  <div className="w-16" />
-</div>
+          <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+            ← Назад
+          </Link>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+            Редактировать пост
+          </h1>
+          <div className="w-16" />
+        </div>
 
         <form
           action={updatePost}
@@ -66,21 +66,29 @@ export default async function EditPostPage({
           </div>
 
           <div>
-  <label
-    htmlFor="content"
-    className="block text-sm font-medium text-gray-700"
-  >
-    Текст поста
-  </label>
-  <CharCounter defaultValue={post.content} />
-</div>
+            <label
+              htmlFor="content"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Текст поста
+            </label>
+            <CharCounter defaultValue={post.content} />
+          </div>
 
-          <button
-            type="submit"
-            className="rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-700"
-          >
-            Сохранить
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="submit"
+              className="rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-700"
+            >
+              Сохранить
+            </button>
+            <Link
+              href={`/posts/${post.id}`}
+              className="rounded-full px-5 py-2.5 text-sm font-medium text-gray-500 transition hover:bg-gray-100"
+            >
+              Отменить
+            </Link>
+          </div>
         </form>
       </div>
     </div>

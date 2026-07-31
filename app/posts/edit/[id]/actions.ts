@@ -17,12 +17,26 @@ export async function updatePost(formData: FormData) {
   const title = formData.get('title') as string
   const content = formData.get('content') as string
 
+  const { data: existingPost } = await supabase
+    .from('posts')
+    .select('title, content')
+    .eq('id', postId)
+    .maybeSingle()
+
+  const hasChanges =
+    existingPost &&
+    (existingPost.title !== title || existingPost.content !== content)
+
   await supabase
-  .from('posts')
-  .update({ title, content, updated_at: new Date().toISOString() })
-  .eq('id', postId)
-  .eq('user_id', user.id)
+    .from('posts')
+    .update(
+      hasChanges
+        ? { title, content, updated_at: new Date().toISOString() }
+        : { title, content }
+    )
+    .eq('id', postId)
+    .eq('user_id', user.id)
 
   revalidatePath('/')
-  redirect('/')
+  redirect(`/posts/${postId}`)
 }
