@@ -6,14 +6,14 @@ export default function NewPostPage() {
     <div className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 flex items-center justify-between">
-  <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-900">
-    ← Назад
-  </Link>
-  <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-    Новый пост
-  </h1>
-  <div className="w-16" />
-</div>
+          <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+            ← Назад
+          </Link>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+            Новый пост
+          </h1>
+          <div className="w-16" />
+        </div>
 
         <form
           action={createPost}
@@ -31,19 +31,19 @@ export default function NewPostPage() {
               name="title"
               type="text"
               required
-              className="mt-1.5 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
+              className="mt-1.5 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
             />
           </div>
 
           <div>
-  <label
-    htmlFor="content"
-    className="block text-sm font-medium text-gray-700"
-  >
-    Текст поста
-  </label>
-  <CharCounter />
-</div>
+            <label
+              htmlFor="content"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Текст поста
+            </label>
+            <CharCounter />
+          </div>
 
           <button
             type="submit"

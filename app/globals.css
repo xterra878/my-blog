@@ -27,3 +27,7 @@ body {
 button {
   cursor: pointer;
 }
+::selection {
+  background-color: #111827;
+  color: #ffffff;
+}

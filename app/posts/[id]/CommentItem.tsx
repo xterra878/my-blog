@@ -78,7 +78,7 @@ export default function CommentItem({
             required
             rows={3}
             defaultValue={comment.content}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
           />
           <div className="flex items-center gap-2">
             <button
