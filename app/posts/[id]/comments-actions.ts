@@ -63,9 +63,15 @@ export async function updateComment(formData: FormData) {
     return
   }
 
+  const hasChanges = comment.content !== content
+
   await supabase
     .from('comments')
-    .update({ content, updated_at: new Date().toISOString() })
+    .update(
+      hasChanges
+        ? { content, updated_at: new Date().toISOString() }
+        : { content }
+    )
     .eq('id', commentId)
 
   revalidatePath(`/posts/${postId}`)
